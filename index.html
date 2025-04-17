@@ -9,11 +9,15 @@
 </head>
 <body>
   <h1>ScanX</h1>
-  <p>Carica CSV prodotti:</p>
+  <p>Carica il file CSV dei prodotti:</p>
   <input type="file" id="csvFile" accept=".csv" />
-  <p>Scatta foto codice:</p>
+  
+  <p>Scatta foto al codice:</p>
   <input type="file" id="cameraInput" accept="image/*" capture="environment" />
+  
   <canvas id="canvas" style="display:none;"></canvas>
+  
+  <div id="loading" style="display:none; font-style: italic;">Riconoscimento in corso...</div>
   <div id="ocrResults"></div>
 
   <h2>Prodotti selezionati</h2>
