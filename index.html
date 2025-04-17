@@ -10,8 +10,7 @@
 <body>
   <h1>ScanX</h1>
   <input type="file" id="csvFile" accept=".csv" />
-  <button id="startScan">Scansiona Codice</button>
-  <video id="preview" autoplay></video>
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" />
   <canvas id="canvas" style="display:none;"></canvas>
   <div id="output"></div>
   <button id="generatePDF">Esporta PDF</button>
