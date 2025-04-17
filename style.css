@@ -1,0 +1,14 @@
+body {
+  font-family: sans-serif;
+  padding: 1rem;
+  background: #f9f9f9;
+  color: #333;
+}
+video {
+  width: 100%;
+  max-width: 400px;
+  margin: 1rem 0;
+}
+#output {
+  margin-top: 1rem;
+}

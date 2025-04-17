@@ -1,0 +1,20 @@
+{
+  "name": "ScanX",
+  "short_name": "ScanX",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "Scansiona prodotti con QR o OCR e genera PDF",
+  "icons": [
+    {
+      "src": "icon/ScanX-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon/ScanX-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
