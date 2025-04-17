@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
-  <title>ScanX</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ScanX - Scheda Ordine / Preventivo</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>ScanX</h1>
-  <p>Carica il file CSV dei prodotti:</p>
-  <input type="file" id="csvFile" accept=".csv" />
-  
-  <p>Scatta foto al codice:</p>
-  <input type="file" id="cameraInput" accept="image/*" capture="environment" />
-  
-  <canvas id="canvas" style="display:none;"></canvas>
-  
-  <div id="loading" style="display:none; font-style: italic;">Riconoscimento in corso...</div>
-  <div id="ocrResults"></div>
-
-  <h2>Prodotti selezionati</h2>
-  <table id="itemsTable">
-    <thead>
-      <tr>
-        <th>Codice</th>
-        <th>Descrizione</th>
-        <th>Q.tà</th>
-        <th>Prezzo Lordo</th>
-        <th>Sconto %</th>
-        <th>Prezzo Netto</th>
-        <th>Trasporto</th>
-        <th>Installazione</th>
-        <th>Totale</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
-  <script src="app.js"></script>
+    <div class="table-container" id="orderForm">
+        <h2>
+            Scheda Ordine
+            <label style="font-weight: normal; margin-left:20px;">
+                <input type="checkbox" id="isPreventivo" onclick="togglePreventivo()"> Preventivo
+            </label>
+        </h2>
+        <div class="logo-section">
+            <label for="logoInput">Carica il Logo:</label>
+            <input type="file" id="logoInput" accept="image/*">
+            <img id="logoPreview" src="" alt="Anteprima Logo" style="display:none;max-width:200px;margin-top:10px;">
+        </div>
+        <table> <!-- Order header fields --> ... <!-- (Keep as provided) --> </table>
+        <table> <!-- Transport, Porto, Installazione, Muletto --> ... </table>
+        <div class="product-search-container">
+            <label for="csvFile">Carica un file CSV</label>
+            <input type="file" id="csvFile" accept=".csv"><br><br>
+            <label for="searchProduct">Cerca Prodotto</label>
+            <input type="text" id="searchProduct" placeholder="Cerca per codice o descrizione" oninput="filterProducts()">
+            <select id="productList" size="5" style="width:100%;" onchange="selectProduct()"></select>
+        </div>
+        <p>Oppure scansiona il codice:</p>
+        <input type="file" id="cameraInput" accept="image/*" capture="environment">
+        <canvas id="canvas" style="display:none;"></canvas>
+        <div id="ocrResults"></div>
+        <table id="itemsTable"> ... </table>
+        <!-- Rest of form as provided -->
+        <button class="pdf-btn" onclick="generatePDF()">Genera PDF</button>
+    </div>
+    <div class="noleggio-container"> ... </div>
+    <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
