@@ -14,29 +14,112 @@
                 <input type="checkbox" id="isPreventivo" onclick="togglePreventivo()"> Preventivo
             </label>
         </h2>
+
         <div class="logo-section">
             <label for="logoInput">Carica il Logo:</label>
             <input type="file" id="logoInput" accept="image/*">
             <img id="logoPreview" src="" alt="Anteprima Logo" style="display:none;max-width:200px;margin-top:10px;">
         </div>
-        <table> <!-- Order header fields --> ... <!-- (Keep as provided) --> </table>
-        <table> <!-- Transport, Porto, Installazione, Muletto --> ... </table>
+
+        <table>
+            <tr>
+                <td>Data</td>
+                <td><input type="date" name="data" style="width:100%;" id="orderDate"></td>
+                <td>Ns. riferimento</td>
+                <td><input type="text" name="ns_riferimento" style="width:100%;" id="referenceNumber"></td>
+            </tr>
+            <tr>
+                <td>Cliente</td>
+                <td colspan="3"><input type="text" name="cliente" style="width:100%;" id="clientName"></td>
+            </tr>
+            <tr>
+                <td>Luogo destinazione se diverso</td>
+                <td colspan="3"><input type="text" name="luogo_destinazione" style="width:100%;" id="destinationPlace"></td>
+            </tr>
+            <tr>
+                <td>Pagamento</td>
+                <td colspan="3"><input type="text" name="pagamento" style="width:100%;" id="paymentTerms"></td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>Trasporto</td>
+                <td colspan="3">
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="trasporto" value="mittente" id="transportSender"> Mittente</label>
+                        <label><input type="checkbox" name="trasporto" value="destinatario" id="transportReceiver"> Destinatario</label>
+                        <label><input type="checkbox" name="trasporto" value="vettore" id="transportCarrier"> Vettore</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Porto</td>
+                <td colspan="3">
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="porto" value="franco" id="portoFranco"> Franco</label>
+                        <label><input type="checkbox" name="porto" value="assegnato" id="portoAssigned"> Assegnato</label>
+                        <label><input type="checkbox" name="porto" value="franco_con_addebito" id="portoWithCharge"> Franco c/add</label>
+                        <input type="text" name="porto_value" id="portoValue" style="width:100px;" placeholder="Valore" readonly />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Installazione</td>
+                <td colspan="3">
+                    <div class="installazione-section">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="installazione" value="no" id="installazioneNo"> NO</label>
+                            <label><input type="checkbox" name="installazione" value="si_interno" id="installazioneSiInterno"> SI interno</label>
+                            <label><input type="checkbox" name="installazione" value="si_esterno" id="installazioneSiEsterno"> SI esterno</label>
+                        </div>
+                        <div class="installazione-cost">
+                            <label for="installazioneCosto">Costo:</label>
+                            <input type="text" name="installazione_costo" id="installazioneCosto" placeholder="€0,00" readonly>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Muletto</td>
+                <td colspan="3">
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="muletto" value="si" id="mulettoSi"> SI</label>
+                        <label><input type="checkbox" name="muletto" value="no" id="mulettoNo"> NO</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
         <div class="product-search-container">
             <label for="csvFile">Carica un file CSV</label>
-            <input type="file" id="csvFile" accept=".csv"><br><br>
+            <input type="file" id="csvFile" accept=".csv">
+            <br><br>
             <label for="searchProduct">Cerca Prodotto</label>
             <input type="text" id="searchProduct" placeholder="Cerca per codice o descrizione" oninput="filterProducts()">
             <select id="productList" size="5" style="width:100%;" onchange="selectProduct()"></select>
         </div>
+
         <p>Oppure scansiona il codice:</p>
         <input type="file" id="cameraInput" accept="image/*" capture="environment">
         <canvas id="canvas" style="display:none;"></canvas>
+        <div id="loading" style="display:none;font-style:italic;">Riconoscimento in corso...</div>
         <div id="ocrResults"></div>
-        <table id="itemsTable"> ... </table>
-        <!-- Rest of form as provided -->
+
+        <table id="itemsTable">
+            <thead>
+                <tr>
+                    <th>Articolo</th><th>Descrizione</th><th>Q.tà</th><th>Prezzo Unitario</th><th>Sconto %</th><th>Netto</th><th>Trasporto</th><th>Install.</th><th>Totale</th><th>Data Cons.</th><th>Rimuovi</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addRow()">Aggiungi Riga</button>
+        <p><strong>Totale Articoli:</strong> <span id="totalArticlesValue">€0,00</span></p>
+        <div class="note-section"><label for="orderNote">Nota:</label><textarea id="orderNote"></textarea></div>
         <button class="pdf-btn" onclick="generatePDF()">Genera PDF</button>
     </div>
-    <div class="noleggio-container"> ... </div>
+
     <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
     <script src="app.js"></script>

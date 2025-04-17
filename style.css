@@ -4,4 +4,6 @@ h2,h3,h1 { color:#333; }
 table { width:100%; border-collapse:collapse; margin-bottom:15px; border:1px solid #ccc; }
 th,td { border:1px solid #ccc; padding:10px; text-align:left; vertical-align:top; font-size:14px; }
 th { background:#f2f2f2; font-weight:bold; }
-/* Add other styles as per provided HTML */
+.checkbox-group { display:flex; gap:10px; flex-wrap:wrap; }
+.add-row-btn,.pdf-btn { margin-top:10px; padding:10px 20px; color:white; border:none; cursor:pointer; border-radius:4px; }
+.add-row-btn { background-color:#4CAF50; } .pdf-btn { background-color:#007bff; }
