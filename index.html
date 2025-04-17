@@ -9,11 +9,31 @@
 </head>
 <body>
   <h1>ScanX</h1>
+  <p>Carica CSV prodotti:</p>
   <input type="file" id="csvFile" accept=".csv" />
+  <p>Scatta foto codice:</p>
   <input type="file" id="cameraInput" accept="image/*" capture="environment" />
   <canvas id="canvas" style="display:none;"></canvas>
-  <div id="output"></div>
-  <button id="generatePDF">Esporta PDF</button>
+  <div id="ocrResults"></div>
+
+  <h2>Prodotti selezionati</h2>
+  <table id="itemsTable">
+    <thead>
+      <tr>
+        <th>Codice</th>
+        <th>Descrizione</th>
+        <th>Q.tà</th>
+        <th>Prezzo Lordo</th>
+        <th>Sconto %</th>
+        <th>Prezzo Netto</th>
+        <th>Trasporto</th>
+        <th>Installazione</th>
+        <th>Totale</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
   <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
   <script src="app.js"></script>

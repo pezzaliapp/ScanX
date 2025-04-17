@@ -1,7 +1,6 @@
 
 let csvData = [];
 
-// Caricamento CSV
 document.getElementById('csvFile').addEventListener('change', (e) => {
   const file = e.target.files[0];
   const reader = new FileReader();
@@ -21,13 +20,12 @@ function parseCSV(text) {
       codice: cols[0]?.trim(),
       descrizione: cols[1],
       prezzoLordo: parseFloat(cols[2]?.replace(',', '.') || 0),
-      installazione: parseFloat(cols[3]) || 0,
-      trasporto: parseFloat(cols[4]) || 0
+      installazione: parseFloat(cols[3]?.replace(',', '.') || 0),
+      trasporto: parseFloat(cols[4]?.replace(',', '.') || 0)
     };
   });
 }
 
-// Scansione da immagine
 document.getElementById('cameraInput').addEventListener('change', async (event) => {
   const file = event.target.files[0];
   if (!file) return;
@@ -41,32 +39,51 @@ document.getElementById('cameraInput').addEventListener('change', async (event) 
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
 
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+    const result = await Tesseract.recognize(canvas, 'eng');
+    const text = result.data.text.trim();
+    const words = Array.from(new Set(text.split(/\s+|\n+/).map(w => w.trim()).filter(w => w.length > 2)));
 
-    if (qrCode) {
-      handleCode(qrCode.data.trim());
-    } else {
-      const result = await Tesseract.recognize(canvas, 'eng');
-      const text = result.data.text.trim().split(/\s|\n/)[0]; // prende solo la prima parola/codice
-      handleCode(text);
-    }
+    showOCRResults(words);
   };
 });
 
-// Ricerca prodotto
+function showOCRResults(words) {
+  const output = document.getElementById('ocrResults');
+  output.innerHTML = '<h3>Testi rilevati:</h3>';
+  words.forEach(word => {
+    const div = document.createElement('div');
+    const btn = document.createElement('button');
+    btn.textContent = 'Aggiungi a tabella';
+    btn.onclick = () => handleCode(word);
+    div.textContent = word + ' ';
+    div.appendChild(btn);
+    output.appendChild(div);
+  });
+}
+
 function handleCode(code) {
   const prodotto = csvData.find(p => p.codice === code);
-  const output = document.getElementById('output');
+  const tbody = document.querySelector('#itemsTable tbody');
 
   if (prodotto) {
-    output.innerHTML = `
-      <h3>Prodotto trovato:</h3>
-      <p><strong>Codice:</strong> ${prodotto.codice}</p>
-      <p><strong>Descrizione:</strong> ${prodotto.descrizione}</p>
-      <p><strong>Prezzo Lordo:</strong> €${prodotto.prezzoLordo.toFixed(2)}</p>
+    const row = tbody.insertRow();
+    const qty = 1;
+    const sconto = 0;
+    const netto = prodotto.prezzoLordo;
+    const totale = (netto + prodotto.trasporto + prodotto.installazione) * qty;
+
+    row.innerHTML = `
+      <td>${prodotto.codice}</td>
+      <td>${prodotto.descrizione}</td>
+      <td>${qty}</td>
+      <td>€${prodotto.prezzoLordo.toFixed(2)}</td>
+      <td>${sconto}%</td>
+      <td>€${netto.toFixed(2)}</td>
+      <td>€${prodotto.trasporto.toFixed(2)}</td>
+      <td>€${prodotto.installazione.toFixed(2)}</td>
+      <td>€${totale.toFixed(2)}</td>
     `;
   } else {
-    output.innerHTML = `<p><strong>Codice non trovato:</strong> ${code}</p>`;
+    alert('Codice non trovato nel CSV: ' + code);
   }
 }

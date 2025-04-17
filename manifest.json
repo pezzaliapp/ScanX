@@ -4,7 +4,7 @@
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "description": "Scansiona prodotti con QR o OCR e genera PDF",
+  "description": "Scansiona, seleziona e importa articoli da immagine",
   "icons": [
     {
       "src": "icon/ScanX-192.png",
